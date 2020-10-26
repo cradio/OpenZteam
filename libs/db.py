@@ -36,7 +36,7 @@ class DB:
         awaittext="Reading DB"
         while threading.active_count() > 1:
             for dot in range(4):
-                print(f"\r[Bad: {self.cntDeleted} | Total: {self.cntLines}] "+awaittext+"."*dot,end=" "*3)
+                print(f"\r[Bad: {self.cntDeleted} ({round((100*self.cntDeleted/(1 if self.cntLines==0 else self.cntLines)),2)}%)| Total: {self.cntLines}] "+awaittext+"."*dot,end=" "*3)
                 time.sleep(.3)
         print(f"\n[DB] Done. Loaded {self.cntLines-self.cntDeleted} lines")
 
