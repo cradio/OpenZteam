@@ -1,4 +1,3 @@
-# cRadio 2020
 import hashlib
 import random
 import threading

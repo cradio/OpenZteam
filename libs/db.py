@@ -1,7 +1,7 @@
-# cRadio 2020
 import threading
 import time
 import io  # because of charmap errors
+import os
 
 
 class DB:
@@ -16,7 +16,10 @@ class DB:
     DB = []
 
     def __init__(self, dbPath):
-        self.dbPath = dbPath
+        if os.path.exists(dbPath):
+            self.dbPath = dbPath
+        else:
+            exit("[E] Invalid DB path")
 
     def readDBThread(self):
         with io.open(self.dbPath, "r", encoding="utf-8") as dbFile:
@@ -25,12 +28,10 @@ class DB:
                 if line == "" or xline == "":
                     continue
                 self.cntLines += 1
-                if (xline[:1].isalpha() or xline[:1].isnumeric() or xline[:1].startswith("_")) and (":" in xline) and (
-                        "@" in xline):
+                if (xline[:1].isalpha() or xline[:1].isnumeric() or xline[:1].startswith("_")) and (":" in xline) and ("@" in xline):
                     self.DB.append(xline)
                 else:
                     self.cntDeleted += 1
-                    # print(f"----BAD----\t{xline}")
 
     def readDB(self):
         DBThread = threading.Thread(target=self.readDBThread)
